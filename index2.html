@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Interactive Shape</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .shape {
+            width: 150px;
+            height: 100px;
+            background-color: steelblue;
+            transition: all 0.5s ease-in-out;
+            border-radius: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            left: 25%;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .circle {
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            animation: bounce 0.3s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shape" id="shape">Click Me!</div>
+
+    <script>
+        const shape = document.getElementById("shape");
+        let moveRight = true;
+        let width = 150;
+        let height = 100;
+        const maxWidth = 300;  // Maximum width limit
+        const maxHeight = 200; // Maximum height limit
+
+        const rectangleTexts = [
+            "I'm a cool rectangle!",
+            "Click me, I dare you!",
+            "Ouch! That tickles!",
+            "I will be round soon!",
+            "Why so square?!"
+        ];
+
+        const circleTexts = [
+            "Now I'm a bubble!",
+            "Rolling away... almost!",
+            "I feel round and fancy!",
+            "Where did my corners go?",
+            "BOING! I'm bouncing!"
+        ];
+
+        function getRandomColor() {
+            const letters = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function getRandomText(textArray) {
+            return textArray[Math.floor(Math.random() * textArray.length)];
+        }
+
+        shape.addEventListener("mouseover", () => {
+            shape.classList.add("circle");
+            shape.style.backgroundColor = getRandomColor();
+            shape.textContent = getRandomText(circleTexts);
+        });
+
+        shape.addEventListener("mousedown", () => {
+            shape.classList.remove("circle");
+            shape.style.backgroundColor = getRandomColor();
+            shape.textContent = getRandomText(rectangleTexts);
+
+            // Slide 50% left and right
+            shape.style.left = moveRight ? "75%" : "25%";
+            moveRight = !moveRight;
+
+            // Increase size with limits
+            if (width < maxWidth && height < maxHeight) {
+                width += 20;
+                height += 15;
+            }
+            shape.style.width = `${width}px`;
+            shape.style.height = `${height}px`;
+        });
+
+        shape.addEventListener("mouseleave", () => {
+            shape.textContent = "Click Me!";
+        });
+    </script>
+
+</body>
+</html>
